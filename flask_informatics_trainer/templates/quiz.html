@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>{{ section.name }}</h1>
+<form method="POST">
+    {% for question in questions %}
+    <div class="question">
+        <p>{{ question.question }}</p>
+        {% for option in question.options %}
+        <label>
+            <input type="radio" name="question_{{ loop.index0 }}" value="{{ option }}" required> {{ option }}
+        </label><br>
+        {% endfor %}
+        <button type="button" class="reset-button" data-question="{{ loop.index0 }}">Сбросить выбор</button>
+    </div>
+    {% endfor %}
+    <button type="submit" class="btn">Завершить тест</button>
+</form>
+
+<script>
+    // Добавляем обработчик для кнопок "Сбросить выбор"
+    document.querySelectorAll('.reset-button').forEach(button => {
+        button.addEventListener('click', () => {
+            const questionIndex = button.getAttribute('data-question');
+            const radioButtons = document.querySelectorAll(`input[name="question_${questionIndex}"]`);
+            radioButtons.forEach(radio => {
+                radio.checked = false;  // Сбрасываем выбор
+            });
+        });
+    });
+</script>
+{% endblock %}

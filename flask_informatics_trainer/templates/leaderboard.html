@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Таблица рейтинга</h1>
+<table>
+    <thead>
+        <tr>
+            <th>Место</th>
+            <th>Имя пользователя</th>
+            <th>Рейтинг</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for user in users %}
+        <tr>
+            <td>{{ loop.index }}</td>
+            <td>{{ user.username }}</td>
+            <td>{{ user.score }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<a href="{{ url_for('index') }}" class="btn">На главную</a>
+{% endblock %}

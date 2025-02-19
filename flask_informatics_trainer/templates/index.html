@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Тренажёр по информатике</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h1>Тренажёр по информатике</h1>
+    <form method="POST" action="{{ url_for('check_answers') }}">
+        {% for question in questions %}
+        <div class="question">
+            <p>{{ question.question }}</p>
+            {% for option in question.options %}
+            <label>
+                <input type="radio" name="question_{{ loop.index0 }}" value="{{ option }}" required> {{ option }}
+            </label><br>
+            {% endfor %}
+        </div>
+        {% endfor %}
+        <button type="submit">Проверить ответы</button>
+    </form>
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <div class="flash-messages">
+                {% for message in messages %}
+                    <p>{{ message }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+</body>
+</html>

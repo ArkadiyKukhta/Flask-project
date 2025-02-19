@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Главное меню</h1>
+<div class="sections">
+    {% for section_name, section_data in sections.items() %}
+    <div class="section">
+        <h2>{{ section_data.name }}</h2>
+        <a href="{{ url_for('quiz', section_name=section_name) }}" class="btn">Начать тест</a>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
