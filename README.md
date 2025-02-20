@@ -31,5 +31,5 @@
 
 1. **Клонируйте репозиторий**:
    ```bash
-   git clone https://github.com/ваш-username/тренажёр-по-информатике.git
-   cd тренажёр-по-информатике
+   git clone https://github.com/ArkadiyKukhta/Flask-project.git
+   cd Flask-project.git
