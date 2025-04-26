@@ -1,12 +1,90 @@
-{% extends "base.html" %}
-{% block content %}
-<h1>Главное меню</h1>
-<div class="sections">
-    {% for section_name, section_data in sections.items() %}
-    <div class="section">
-        <h2>{{ section_data.name }}</h2>
-        <a href="{{ url_for('quiz', section_name=section_name) }}" class="btn">Начать тест</a>
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Тренажёр по информатике</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <!-- Навигационные кнопки -->
+        <div class="nav-container">
+            <a href="{{ url_for('index') }}" class="nav-btn main-menu">
+                <i class="fas fa-home"></i>
+                Главное меню
+            </a>
+
+            <a href="{{ url_for('leaderboard') }}" class="nav-btn leaderboard">
+                <i class="fas fa-trophy"></i>
+                Таблица рейтинга
+            </a>
+
+            <a href="{{ url_for('logout') }}" class="nav-btn logout">
+                <i class="fas fa-sign-out-alt"></i>
+                Выйти
+            </a>
+        </div>
+
+        <!-- Блок с тестами -->
+        <div class="test-sections">
+            <h2>Доступные тесты</h2>
+            <div class="section-buttons">
+                {% for section_name, section_data in sections.items() %}
+                <a href="{{ url_for('quiz', section_name=section_name) }}" class="section-btn">
+                    {{ section_data.name }}
+                    <span class="test-count">5 вопросов</span>
+                </a>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Модальное окно теории -->
+        <div id="theory-modal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h2>Теоретические материалы</h2>
+                <div class="theory-sections">
+                    {% for section, items in theory.items() %}
+                    <div class="theory-section">
+                        <h3>{{ section }}</h3>
+                        <ul>
+                            {% for item in items %}
+                            <li>{{ item }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
     </div>
-    {% endfor %}
-</div>
-{% endblock %}
+
+    <script>
+        // Открытие/закрытие модального окна теории
+        document.querySelector('.nav-btn.leaderboard').addEventListener('click', function() {
+            document.getElementById('theory-modal').style.display = 'block';
+        });
+
+        document.querySelector('.close').addEventListener('click', function() {
+            document.getElementById('theory-modal').style.display = 'none';
+        });
+
+        window.addEventListener('click', function(event) {
+            if (event.target == document.getElementById('theory-modal')) {
+                document.getElementById('theory-modal').style.display = 'none';
+            }
+        });
+
+        // Анимация пульсации для кнопки выхода
+        const logoutBtn = document.querySelector('.logout');
+        logoutBtn.addEventListener('mouseenter', function() {
+            this.style.animation = 'pulse 0.5s ease infinite alternate';
+        });
+        logoutBtn.addEventListener('mouseleave', function() {
+            this.style.animation = 'none';
+        });
+    </script>
+</body>
+</html>
